@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+
+{% block body %}
+    {{ include('navbar.html.twig') }}
+    <h1 class="text-center p-3 m-5">Utilisateurs</h1>
+
+    <div class="container my-5">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            {% for user in pagination %}
+                <div class="col">
+                    <div class="card d-flex align-items-center shadow flex-column" style="padding: 20px; height: auto;">
+                        <div class="d-flex align-items-center" style="flex-direction: row; width: 100%;"> <!-- Добавлен div для содержимого карточки -->
+                            <div class="profile-pic" style="height: 90px; width: 90px; background-color: #f0f0f0; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                {% if user.userImage %}
+                                    <img src="/uploads/{{ user.userImage }}" alt="{{ user.username }}" style="height: 100%; width: auto;">
+                                {% else %}
+                                    <img src="{{ asset('images/placeholderAva.webp') }}" alt="Profile Picture" style="height: 100%; width: auto;">
+                                {% endif %}
+                            </div>
+                            <div class="text-left">
+                                <h5 class="card-title">{{ user.username }}</h5>
+                                <div class="btn-group">
+                                <a href="{{ path('app_user_show', {'id': user.id}) }}" class="btn btn-outline-dark">Regarder {{ user.posts|length }} articles</a>
+                                    {% if is_granted('USER_EDIT', user) %}
+                                            <a href="{{ path('app_user_edit', { 'id': user.id }) }}" class="delete-button btn btn-outline-secondary">Modifier</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="navigation d-flex justify-content-center mt-5">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+{% endblock %}

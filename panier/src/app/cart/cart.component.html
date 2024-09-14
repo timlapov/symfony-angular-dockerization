@@ -1,0 +1,30 @@
+<h2>Votre panier :</h2>
+
+  <ol class="list-group list-group-numbered">
+<!--    List of purchases with quantity and total price HT-->
+    @for (item of cartService.getCart(); track $index) {
+      <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">{{item.product.name}}</div>
+          Quantité : {{item.quantity}}
+        </div>
+        <div class="text-end">
+          <span class="badge text-bg-light rounded-pill">{{item.product.price * item.quantity | number:'1.2-2'}} € HT</span>
+          <div class="mt-1">
+            <button class="btn btn-outline-danger btn-sm p-0 px-1" (click)="cartService.removeFromCart(item.product.id)">X</button>
+          </div>
+        </div>
+      </li>
+    }
+<!--    Total amount with and without taxes-->
+    <li class="list-group-item list-group-item-light d-flex justify-content-between align-items-start no-number">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">Total</div>
+      </div>
+      <span class="badge text-dark rounded-pill px-3">{{cartService.totalPriceHT() | number:'1.2-2'}} € HT</span>
+      <span class="badge text-bg-secondary rounded-pill px-3">{{cartService.totalPriceTTC() | number:'1.2-2'}} € TTC</span>
+      <button class="btn btn-outline-danger btn-sm p-0 px-1 ms-2" (click)="cartService.emptyCart()">X</button>
+    </li>
+  </ol>
+
+

@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'article{% endblock %}
+
+{% block body %}
+    {{ include('navbar.html.twig') }}
+    <div class="container my-5">
+        <h1 class="h3 m-3 pt-3 font-weight-normal">Modifier l'article</h1>
+
+        <div class="card">
+            <div class="card-body">
+                {{ form_start(form, {'attr': {'class': 'g-3', 'enctype': 'multipart/form-data'}}) }}
+
+                <div class="row">
+
+                    <div class="col-md-8 mb-3 mb-md-0">
+                        <div class="form-group">
+                            {{ form_label(form.content, 'Contenu', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.content, {'attr': {'class': 'form-control', 'rows': '10'}}) }}
+                            {{ form_errors(form.content) }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        {% if post.imageUrl %}
+                            <div class="mb-3">
+                                <img src="/uploads/{{ post.imageUrl }}" alt="Image d'article" class="img-fluid mb-3">
+                            </div>
+                        {% endif %}
+                        <div class="mb-3">
+                            {{ form_label(form.imageUrl, 'Image d\'article', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.imageUrl, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.imageUrl) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-dark">Mettre à jour</button>
+                    </div>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-12">
+                <a href="{{ path('app_index') }}" class="btn btn-outline-secondary">Retour à l'accueil</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

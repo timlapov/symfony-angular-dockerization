@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dream Glimpse – Accueil
+{% endblock %}
+
+{% block body %}
+	{{ include('navbar.html.twig') }}
+
+	<main>
+
+		<section class="py-5 text-center container">
+			<div class="row py-lg-5">
+				<div class="col-lg-6 col-md-8 mx-auto">
+					<h1 class="fw-light">Bienvenue sur le site Dream Glimpse !</h1>
+					<p class="lead text-body-secondary">Ici, nous racontons nos rêves et l'illustration est générée automatiquement. Envie d'essayer ?</p>
+					<div class="btn-group">
+						<a href="{{ path('app_registration') }}" class="btn btn-dark my-2">Inscrivez-vous</a>
+						<a href="{{ path('app_post_crud_new') }}" class="btn btn-secondary my-2">Publiez votre rêve</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<div class="album py-5 bg-body-tertiary">
+			<h2 class="text-center mb-5">Derniers rêves</h2>
+			<div class="container">
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-5">
+					{% for post in posts %}
+						<div class="col">
+							<div class="card shadow-lg h-100">
+								<div class="ratio ratio-1x1">
+									<img src="/uploads/{{ post.imageUrl }}" class="card-img-top object-fit-cover" alt="post image">
+								</div>
+								<div class="card-body">
+									<p class="card-text">{{ post.content|slice(0, 100) ~ (post.content|length > 100 ? '...' : '') }}</p>
+									<div class="d-flex justify-content-between align-items-center">
+										<div class="btn-group">
+											<a href="#" type="button" class="btn btn-sm btn-outline-secondary">Like</a>
+											<a href="{{ path('app_post_crud_show', {'id': post.id} ) }}" type="button" class="btn btn-sm btn-outline-secondary">Lire la suite</a>
+										</div>
+										<small class="text-body-secondary">{{ post.createdAt|date('d M Y') }}</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+
+	</main>
+
+	<div class="text-body-secondary py-5">
+		<div class="container">
+			<p class="float-end mb-1 arrow-up">
+				<a href="#">
+					<i class="bi bi-arrow-up-circle-fill" style="font-size: 2rem; color: #6c757d;"></i>
+				</a>
+			</p>
+		</div>
+		<div class="container newsletter-container">
+			<div class="row align-items-center">
+				<div class="col-md-6">
+					<h5 class="newsletter-header">Inscrivez-vous à notre newsletter</h5>
+					<p class="newsletter-text">Une fois par semaine, nous vous enverrons les meilleurs articles de nos utilisateurs, ainsi que des informations sur les nouvelles fonctionnalités du service.</p>
+				</div>
+				<div class="col-md-6">
+					<form method="post" action="{{ path('app_index') }}">
+						<div class="d-flex flex-column flex-sm-row w-100 gap-2 align-items-center">
+							{{ form(newsletterForm) }}
+								<button class="btn btn-dark" type="submit">S'inscrire</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	{% endblock %}
